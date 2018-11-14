@@ -4,7 +4,19 @@ class Statistics:
 
         def __init__(self, TreeMap):
             self.avl = AVLTreeMap(TreeMap)
-
+            try:
+                file = open("prova.txt", "r")
+            except FileNotFoundError:
+                print("File non trovato")
+            else:
+                while 1:
+                    line = file.readline()
+                    if not line:
+                        break
+                    tmp = line.split(":")
+                    key = tmp[0]
+                    value = tmp[1]
+                    self.add(key, value)
 
         def add(self, k, v):
             tmp = []
@@ -38,5 +50,4 @@ class Statistics:
             return total/self.len()
 
         def median(self):
-
-
+            #da fare
