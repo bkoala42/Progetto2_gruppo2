@@ -79,6 +79,8 @@ class Statistics:
             return tmp[int((len(tmp)*j)/100)]
 
         def mostFrequent(self, j):
+            if (j > len()):
+                j = len()
             list = []
             queue = SortedPriorityQueue()
             for node in self.avl:
