@@ -1,9 +1,10 @@
 from TdP_collections.map.avl_tree import AVLTreeMap
+from sorted_priority_queue import SortedPriorityQueue
 
 class Statistics:
 
-        def __init__(self, TreeMap):
-            self.avl = AVLTreeMap(TreeMap)
+        def __init__(self):
+            self.avl = AVLTreeMap()
             try:
                 file = open("prova.txt", "r")
             except FileNotFoundError:
@@ -16,7 +17,7 @@ class Statistics:
                     tmp = line.split(":")
                     key = tmp[0]
                     value = tmp[1]
-                    self.add(key, value)
+                    self.add(key, int(value))
 
         def add(self, k, v):
             tmp = []
@@ -50,6 +51,39 @@ class Statistics:
             return total/self.len()
 
         def median(self):
-            """ TODO """
-            pass
+            tmp = []
+            for node in self.avl:
+                frequency = self.avl.get(node)[0]
+                if len(tmp) == 0:
+                    tmp = [node] * frequency
+                else:
+                    tmp1 = [node] * frequency
+                    tmp.extend(tmp1)
+            lenght = len(tmp)
+            if lenght % 2 == 1:
+                return tmp[lenght/2]
+            else:
+                return tmp[int(lenght/2)], tmp[int(lenght/2 + 1)]
 
+        def percentile(self, j):
+            tmp = []
+            if j <0 or j > 100:
+                raise Exception("j must be between [0:99]")
+            else:
+                for node in self.avl:
+                    frequency = self.avl.get(node)[0]
+                    if len(tmp) == 0:
+                        tmp = [node] * frequency
+                    else:
+                        tmp1 = [node] * frequency
+                        tmp.extend(tmp1)
+            return tmp[int((len(tmp)*j)/100)]
+
+        def mostFrequent(self, j):
+            list = []
+            queue = SortedPriorityQueue()
+            for node in self.avl:
+                queue.add(self.avl.get(node)[0], node)
+            for i in range(j):
+                list.append(queue.remove_max()[1])
+            return list
