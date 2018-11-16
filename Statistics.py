@@ -8,7 +8,7 @@ class Statistics:
             try:
                 file = open("prova.txt", "r")
             except FileNotFoundError:
-                print("File non trovato")
+                print("File not found")
             else:
                 while 1:
                     line = file.readline()
