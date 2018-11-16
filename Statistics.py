@@ -1,25 +1,28 @@
-#from NewAVLTreeMap import NewAVLTreeMap 
+#from NewAVLTreeMap import NewAVLTreeMap
 from sorted_priority_queue import SortedPriorityQueue
 from TdP_collections.map.avl_tree import AVLTreeMap
 
 class Statistics:
 
-        def __init__(self):
+        def __init__(self, bool):
             #self.avl = NewAVLTreeMap()
             self.avl = AVLTreeMap()
-            try:
-                file = open("prova.txt", "r")
-            except FileNotFoundError:
-                print("File not found")
-            else:
-                while 1:
-                    line = file.readline()
-                    if not line:
-                        break
-                    tmp = line.split(":")
-                    key = tmp[0]
-                    value = tmp[1]
-                    self.add(key, int(value))
+            if bool:
+            #If true, we can read from file
+            #else, we have an AVL empty
+                try:
+                    file = open("prova.txt", "r")
+                except FileNotFoundError:
+                    print("File not found")
+                else:
+                    while 1:
+                        line = file.readline()
+                        if not line:
+                            break
+                        tmp = line.split(":")
+                        key = tmp[0]
+                        value = tmp[1]
+                        self.add(key, int(value))
 
         def add(self, k, v):
             tmp = []
@@ -82,9 +85,11 @@ class Statistics:
                     else:
                         tmp1 = [node] * frequency
                         tmp.extend(tmp1)
-            return tmp[int((len(tmp)*j)/100)]
+            return tmp[int((len(tmp)*j)/100)-1]
 
         def mostFrequent(self, j):
+            if self.len() == 0:
+                return None
             if (j > self.len()):
                 j = self.len()
             list = []
