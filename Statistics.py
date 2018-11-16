@@ -50,4 +50,6 @@ class Statistics:
             return total/self.len()
 
         def median(self):
-            #da fare
+            """ TODO """
+            pass
+
