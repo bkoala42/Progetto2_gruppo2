@@ -1,10 +1,9 @@
-from TdP_collections.map.avl_tree import AVLTreeMap
+from NewAVLTreeMap import NewAVLTreeMap
 from sorted_priority_queue import SortedPriorityQueue
-
 class Statistics:
 
         def __init__(self):
-            self.avl = AVLTreeMap()
+            self.avl = NewAVLTreeMap()
             try:
                 file = open("prova.txt", "r")
             except FileNotFoundError:
