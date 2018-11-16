@@ -38,5 +38,12 @@ class Statistics:
             return total/self.len()
 
         def median(self):
+            pass
+
+        def percentile(self, j = 20):
+            pass
+
+        def mostFrequent(self, j):
+            pass
 
 
