@@ -63,7 +63,7 @@ class Statistics:
                     tmp.extend(tmp1)
             lenght = len(tmp)
             if lenght % 2 == 1:
-                return tmp[lenght/2]
+                return tmp[int(lenght/2)], None
             else:
                 return tmp[int(lenght/2)], tmp[int(lenght/2 + 1)]
 
