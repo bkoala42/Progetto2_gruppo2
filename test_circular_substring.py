@@ -1,6 +1,6 @@
 from CircularSubstring import circular_substring
 
-str = "This is a cool string"
+full_string = "This is a cool string"
 
 fp = "g"
 sp = "gT"
@@ -8,8 +8,10 @@ tp = "gTh"
 fop = "gThi"
 fip = "gThis is a cool strin"
 
-print(circular_substring(fp,str))
-print(circular_substring(sp,str))
-print(circular_substring(tp,str))
-print(circular_substring(fop,str))
-print(circular_substring(fip,str))
+
+if __name__ == "__main__":
+    print(circular_substring(fp, full_string))
+    print(circular_substring(sp, full_string))
+    print(circular_substring(tp, full_string))
+    print(circular_substring(fop, full_string))
+    print(circular_substring(fip, full_string))
