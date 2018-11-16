@@ -53,19 +53,22 @@ class Statistics:
             return total/self.len()
 
         def median(self):
-            tmp = []
-            for node in self.avl:
-                frequency = self.avl.get(node)[0]
-                if len(tmp) == 0:
-                    tmp = [node] * frequency
-                else:
-                    tmp1 = [node] * frequency
-                    tmp.extend(tmp1)
-            lenght = len(tmp)
-            if lenght % 2 == 1:
-                return tmp[int(lenght/2)], None
+            if self.len() == 0:
+                return None, None
             else:
-                return tmp[int(lenght/2)], tmp[int(lenght/2 + 1)]
+                tmp = []
+                for node in self.avl:
+                    frequency = self.avl.get(node)[0]
+                    if len(tmp) == 0:
+                        tmp = [node] * frequency
+                    else:
+                        tmp1 = [node] * frequency
+                        tmp.extend(tmp1)
+                lenght = len(tmp)
+                if lenght % 2 == 1:
+                    return tmp[int(lenght/2)],None
+                else:
+                    return tmp[int(lenght/2)], tmp[int(lenght/2 + 1)]
 
         def percentile(self, j):
             tmp = []
