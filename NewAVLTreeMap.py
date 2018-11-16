@@ -30,23 +30,24 @@ class NewAVLTreeMap(AVLTreeMap):
 
     def _recompute_rebalance_factor(self, p):
         # caso base inserimento a dx e sx
-        if self.left(p) is None and self.right(p) is not None:
-            p._node._rebalance_factor = -1
-        if self.right(p) is None and self.left(p) is not None:
-            p._node._rebalance_factor = 1
-        # casi trinode vedi quaderno
-        if self.left(p)._node._rebalance_factor == 0:
-            p._node._rebalance_factor = 0
-        if self.left(p)._node._rebalance_factor == -1:
-            p._node._rebalance_factor = 1
-        if self.left(p)._node._rebalance_factor == 1:
-            p._node._rebalance_factor = -1
-        if self.right(p)._node._rebalance_factor == 0:
-            p._node._rebalance_factor = 0
-        if self.right(p)._node._rebalance_factor == -1:
-            p._node._rebalance_factor = 1
-        if self.left(p)._node._rebalance_factor == 1:
-            p._node._rebalance_factor = -1
+        if not self.is_leaf(p):
+            if self.left(p) == None and self.right(p) != None:
+                p._node._rebalance_factor = p._node._rebalance_factor - 1
+            elif self.right(p) == None and self.left(p) != None:
+                p._node._rebalance_factor = p._node._rebalance_factor + 1
+            # casi trinode vedi quaderno
+            elif self.left(p)._node._rebalance_factor == 0:
+                p._node._rebalance_factor = 0
+            elif self.left(p)._node._rebalance_factor == -1:
+                p._node._rebalance_factor = 1
+            elif self.left(p)._node._rebalance_factor == 1:
+                p._node._rebalance_factor = -1
+            elif self.right(p)._node._rebalance_factor == 0:
+                p._node._rebalance_factor = 0
+            elif self.right(p)._node._rebalance_factor == -1:
+                p._node._rebalance_factor = 1
+            elif self.left(p)._node._rebalance_factor == 1:
+                p._node._rebalance_factor = -1
         # va un più da qualche parte
 
 
@@ -57,27 +58,31 @@ class NewAVLTreeMap(AVLTreeMap):
         # esiste il caso -2/+2???
         if p._node._rebalance_factor == 0 and favorleft:
             return self.left(p)
-        elif p._node._rebalance_factor == 1:
-            return self.right(p)
-        elif p._node._rebalance_factor == -1:
+        elif p._node._rebalance_factor > 0:
             return self.left(p)
-        else:
+        elif p._node._rebalance_factor < 0:
             return self.right(p)
+        #else:
+        #    return self.right(p)
 
     def _rebalance(self, p):
         while p is not None:
-            old_rebalance_factor = p._node._rebalance_factor  # trivially 0 if new node
-            if not self._isbalanced(p):  # imbalance detected!
+            if self.parent(p) is not None:
+                self._recompute_rebalance_factor(self.parent(p))
+            old_rebalance_factor = p._node._rebalance_factor
+            if not self.is_balanced(p):
                 p = self._restructure(self._tall_grandchild(p))
+                print(p.element()._key)
+                print(self.left(p).element()._key)
+                print(self.right(p).element()._key)
                 self._recompute_rebalance_factor(self.left(p))
                 self._recompute_rebalance_factor(self.right(p))
-            self._recompute_rebalance_factor(p)
-            if p._node._rebalance_factor == old_rebalance_factor:  # has height changed?
-                p = None  # no further changes needed
+                self._recompute_rebalance_factor(p)
+                #self._recompute_rebalance_factor(self.parent(p))
+                if p._node._rebalance_factor == old_rebalance_factor:  # has height changed?
+                    p = None  # no further changes needed
             else:
-                # parent è rotto???
                 p = self.parent(p)
-
 
     # ----------- methods for test purpose
 
