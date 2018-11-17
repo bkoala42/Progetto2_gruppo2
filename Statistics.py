@@ -40,7 +40,6 @@ class Statistics:
         frequency and total fields associated to it accordingly.
         :param k: the key to add/update
         :param v: value associated to the key
-        :return: empty
         The assumption taken is to store the parameters as follows:
             key = k
             value = list(frequency, total)
