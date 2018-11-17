@@ -65,55 +65,89 @@ t[10] = "bbb"
 # #
 #
 
-print("tree is balanced: ", t.is_balanced(t.root()))
+# print("tree is balanced: ", t.is_balanced(t.root()))
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
 print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.right(t.root()))))
 print("5 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("1 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
 # print("right to the root there is: ", t.right(t.root()).element()._key)
 # print("right to 5 there is: ", t.right(t.right(t.root())).element()._key)
 # print("left to 5 there is: ", t.left(t.right(t.root())))
 
-# print("Inserting fifth element")
-# t[59] = "bb"
+print("\nInserting fifth element")
+t[59] = "bb"
+#
+#
+# #
+# #      3
+# #    /   \
+# #   1     10
+# #        /  \
+# #       5    59
+# #
+#
 #
 # for k,v in t.items():
 #     print("[{}:{}]".format(k,v))
 # print("root is: ", t.root().element()._key)
-# print("root balance factor equals to: ", t.retrieve_balance_factor(t.root()))
+print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("59 balance factor is: ", t.retrieve_balance_factor(t.right(t.right(t.root()))))
+print("5 balance factor is: ", t.retrieve_balance_factor(t.left(t.right(t.root()))))
+print("1 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
 # print("left to the root there is: ", t.left(t.root()).element()._key)
 # print("right to the root there is: ", t.right(t.root()).element()._key)
 # print("right to the right element there is: ", t.right(t.right(t.root())).element()._key)
 
 #
+# TODO SKIP THIS CASE
+# print("\nDeleting root element")
+# t.delete(t.root())
 # #
-# #      3
-# #    /   \
-# #   1     10
-# #        /  \
-# #       5    59
+# # #
+# # #      10
+# # #    /   \
+# # #   1     59
+# # #    \
+# # #     5
 # #
-#
-# print("height of the tree is ", t.height(p=t.left(t.root())))
-#
-# t[2] = "bb"
-# t.delete(t.find_position(2))
-#
-# #
-# #      3
-# #    /   \
-# #   1     10
-# #        /  \
-# #       5    59
-# #
-#
-#
-#
-# t[4] = "bb"
-# t[6] = "bb"
+# print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+# print("59 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+# print("1 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
+# print("5 balance factor is: ", t.retrieve_balance_factor(t.right(t.left(t.root()))))
+
+# TODO TRY THIS
+# Quello che ci manca è il caso in cui si muove la radice,
+# non possiamo solo mettere a zero perchè la radice può essere anche
+# cancellata oppure spostata in seguito a rebalance
+print("\nInserting sixth element")
+t[42] = "bb"
 #
 # #
-# #      3
-# #    /   \
-# #   1     5
+# #       10
+# #     /    \
+# #    3      59
+# #   / \    /
+# #  1   5  42
 # #
 #
+#
+print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+print("59 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("3 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
+# #
+#
+# t.delete(t.root())
+#
+# #
+# #        3
+# #     /    \
+# #    1      10
+# #          /  \
+# #         5    59
+# #
+#
+
+# print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+# print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+# print("1 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))

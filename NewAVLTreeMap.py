@@ -82,11 +82,15 @@ class NewAVLTreeMap(AVLTreeMap):
                 return
             elif self.retrieve_balance_factor(self.left(p)) == 0 \
                     and self.retrieve_balance_factor(self.right(p)) != 0:
-                self.change_balance_factor(p, bf -1)
+                self.change_balance_factor(p, bf - 1)
                 return
             elif self.retrieve_balance_factor(self.right(p)) == 0 \
                     and self.retrieve_balance_factor(self.left(p)) != 0:
                 self.change_balance_factor(p, bf + 1)
+                return
+            elif self.retrieve_balance_factor(self.right(p)) == 0 \
+                    and self.retrieve_balance_factor(self.left(p)) == 0:
+                self.change_balance_factor(p, bf)
                 return
             # elif self.left(p)._node._balance_factor == 0:               # trinode cases
             #      p._node._balance_factor = 0
@@ -140,7 +144,7 @@ class NewAVLTreeMap(AVLTreeMap):
         while p is not None:
             if self.parent(p) is not None and self.is_balanced(p):
                 self._recompute_balance_factor(self.parent(p))
-            #old_balance_factor = self.retrieve_balance_factor(p)
+            # old_balance_factor = self.retrieve_balance_factor(p)
             if not self.is_balanced(p):
                 if not self.is_root(p):
                     old_balance_factor = self.retrieve_balance_factor(self.parent(p))
