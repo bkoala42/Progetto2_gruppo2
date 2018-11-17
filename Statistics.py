@@ -1,5 +1,5 @@
 # from NewAVLTreeMap import NewAVLTreeMap
-from sorted_priority_queue import SortedPriorityQueue
+from TdP_collections.priority_queue.sorted_priority_queue import SortedPriorityQueue
 from TdP_collections.map.avl_tree import AVLTreeMap
 
 
@@ -144,8 +144,8 @@ class Statistics:
 
     def mostFrequent(self, j):
         """
-        Returns a list containing the j-th most frequent keys.
-        :param j: index of keys requested
+        Returns a list containing the j most frequent keys.
+        :param j: number of keys requested
         :return: j-most-frequent keys
         """
         if self.len() == 0:
