@@ -1,6 +1,6 @@
-# from NewAVLTreeMap import NewAVLTreeMap
-from TdP_collections.priority_queue.sorted_priority_queue import SortedPriorityQueue
+#from NewAVLTreeMap import NewAVLTreeMap
 from TdP_collections.map.avl_tree import AVLTreeMap
+from TdP_collections.priority_queue.heap_priority_queue import HeapPriorityQueue
 
 
 class Statistics:
@@ -16,22 +16,19 @@ class Statistics:
     :__init__ takes in input the filename of the data-set
     """
 
-    def __init__(self, bool):
+    def __init__(self, fileName):
         # self.avl = NewAVLTreeMap()
         self.avl = AVLTreeMap()
-        if bool:
-            # If true, the class reads data from file
-            # else, we have an empty AVL tree map
-            try:
-                file = open("prova.txt", "r")
-            except FileNotFoundError:
-                print("File not found")
-            else:
-                for line in file:
-                    tmp = line.split(":")
-                    key = tmp[0]
-                    value = tmp[1]
-                    self.add(key, int(value))
+        try:
+            file = open(fileName, "r")
+        except FileNotFoundError:
+            print("File not found")
+        else:
+             for line in file:
+                tmp = line.split(":")
+                key = tmp[0]
+                value = tmp[1]
+                self.add(key, int(value))
 
     def add(self, k, v):
         """
@@ -40,6 +37,7 @@ class Statistics:
         frequency and total fields associated to it accordingly.
         :param k: the key to add/update
         :param v: value associated to the key
+        :return: empty
         The assumption taken is to store the parameters as follows:
             key = k
             value = list(frequency, total)
@@ -88,10 +86,10 @@ class Statistics:
         """
         value = self.avl.values()
         """ :var value is a list containing (frequency, total) """
-        mean_value = 0
+        total = 0
         for i in value:
-            mean_value = mean_value + i[1]
-        return mean_value / self.len()      # TODO what the fuck
+            total = total + i[1]
+        return total / self.len()
 
     def median(self):
         """
@@ -99,7 +97,7 @@ class Statistics:
         Calculates the central key of the set of keys taking into account
         their frequency in time O(k) where k is the number of the occurrences
         in the data-set.
-        :return: median of the keys in the map as a tuple   #TODO si puo' fare senza tupla?
+        :return: median of the keys in the map as a tuple
         """
         if self.len() == 0:
             # if the map is empty no median available
@@ -113,7 +111,7 @@ class Statistics:
                     tmp = [node] * frequency
                 else:
                     tmp1 = [node] * frequency
-                    tmp.extend(tmp1)        # TODO why extend?
+                    tmp.extend(tmp1)
             if len(tmp) % 2 == 1:
                 # if even number of occurrences return the exact central values
                 return tmp[int(len(tmp) / 2)], None
@@ -121,7 +119,7 @@ class Statistics:
                 # if odd number of occurrences return the two values in the middle of the array
                 return tmp[int(len(tmp) / 2)], tmp[int(len(tmp) / 2 + 1)]
 
-    def percentile(self, j=20):
+    def percentile(self, j):
         """
         Calculates the j-th percentile, for j = 1, ..., 99 of the lengths of keys,
         defined as the key k so that the j% of the occurrences of the data-set have
@@ -132,20 +130,57 @@ class Statistics:
         tmp = []
         if j > 100:
             raise Exception("j must be between [0:99]")
+        # if the map is empty no percentile available
+        if self.len() == 0:
+            return None
         else:
+            queue = HeapPriorityQueue()
             for node in self.avl:
                 frequency = self.avl.get(node)[0]
-                if len(tmp) == 0:
+                lenght = len(node)
+                for i in range(frequency):
+                    queue.add(lenght, node)
+            for i in range(len(queue)):
+                tmp.append(queue.remove_min()[1])
+            print(tmp)
+        return tmp[int((len(tmp) * j) / 100 - 1)]
+
+    #Questa versione del percentile presenta una complessità più alta ma almeno ordina in maniera esatta le informazioni
+    #nel dataset in presenza di duplicati
+    
+    def percentile2(self, j):
+        if j >100:
+            raise Exception("j must be between [0:99]")
+        if self.len() == 0:
+            return None
+        else:
+            map = {}
+            list = []
+            result = []
+            for node in self.avl:
+                frequency = self.avl.get(node)[0]
+                lenght = len(node)
+                if lenght not in map:
                     tmp = [node] * frequency
+                    map[lenght] = tmp
+                    list.append(lenght)
                 else:
                     tmp1 = [node] * frequency
-                    tmp.extend(tmp1)
-        return tmp[int((len(tmp) * j) / 100) - 1]
+                    tmp2 = map[lenght]
+                    tmp1.extend(tmp2)
+                    tmp1.sort()
+                    map[lenght] = tmp1
+            list.sort()
+            for i in list:
+                result.extend(map[i])
+        return result[int((len(result) * j) / 100 - 1)]
+
 
     def mostFrequent(self, j):
         """
-        Returns a list containing the j most frequent keys.
-        :param j: number of keys requested
+        Returns a list containing the j-th most frequent keys.
+        Complexity O(nlog(n))
+        :param j: index of keys requested
         :return: j-most-frequent keys
         """
         if self.len() == 0:
@@ -153,9 +188,11 @@ class Statistics:
         if j > self.len():
             j = self.len()
         list = []
-        queue = SortedPriorityQueue()
+        queue = HeapPriorityQueue()
         for node in self.avl:
             queue.add(self.avl.get(node)[0], node)
+        for i in range(len(queue)-j):
+            queue.remove_min()
         for i in range(j):
-            list.append(queue.remove_max()[1])
+            list.append(queue.remove_min())
         return list
