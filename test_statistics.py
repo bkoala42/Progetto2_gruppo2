@@ -116,30 +116,6 @@ def test_percentile_file_dataset():
     else:
         print("Test test_percentile_file_dataset failed")
 
-
-def test_percentile2_file_empity():
-    stat = Statistics("empity.txt")
-    if stat.len() == 0:
-        for i in range(10):
-            stat.add(chr(65 + i), i + 1)
-        if stat.percentile2(25) == "C":
-            print("Test test_percentile2_file_empity passed")
-        else:
-            print("Test test_percentile2_file_empity failed")
-    else:
-        print("Test test_percentile2_file_empity failed")
-#
-def test_percentile2_file_dataset():
-    stat = Statistics("dataset.txt")
-    if stat.len() != 0:
-        if stat.percentile2(25) == "Mila":
-            print("Test test_percentile2_file_dataset passed")
-        else:
-            print("Test test_percentile2_file_dataset failed")
-    else:
-        print("Test test_percentile2_file_dataset failed")
-
-
 def test_mostFrequent():
     stat = Statistics("empity.txt")
     if stat.len() == 0 and stat.mostFrequent(2) is None:
@@ -166,8 +142,6 @@ def run_test_statistics():
     #test_median()
     test_percentile_file_dataset()
     test_percentile_file_empity()
-    test_percentile2_file_dataset()
-    test_percentile2_file_empity()
     #test_mostFrequent()
 
 
