@@ -1,6 +1,7 @@
 #from NewAVLTreeMap import NewAVLTreeMap
 from TdP_collections.map.avl_tree import AVLTreeMap
 from TdP_collections.priority_queue.heap_priority_queue import HeapPriorityQueue
+from TdP_collections.priority_queue.sorted_priority_queue import SortedPriorityQueue
 
 
 class Statistics:
@@ -137,7 +138,7 @@ class Statistics:
         if self.len() == 0:
             return None
         else:
-            queue = HeapPriorityQueue()
+            queue = SortedPriorityQueue()
             for node in self.avl:
                 frequency = self.avl.get(node)[0]
                 lenght = len(node)
