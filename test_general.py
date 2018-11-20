@@ -10,7 +10,6 @@ Remember per Ilaria:
 t = NewAVLTreeMap()
 print("\nInserting first element")
 t[1] = "armando"
-# print("tree is a leaf: ", t.is_leaf(t.root()))
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
 
 
@@ -133,21 +132,41 @@ t[42] = "bb"
 #
 #
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+print("root is: ", t.root().element()._key)
 print("59 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
 print("3 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
-# #
-#
-# t.delete(t.root())
-#
-# #
-# #        3
-# #     /    \
-# #    1      10
-# #          /  \
-# #         5    59
-# #
-#
 
-# print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
-# print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
-# print("1 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("\nInserting seventh element")
+t[17] = "bb"
+#
+# #
+# #       10
+# #     /    \
+# #    3      42
+# #   / \    /  \
+# #  1   5  17   59
+# #
+#
+#
+print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+print("root is: ", t.root().element()._key)
+print("42 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("3 balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
+#
+#
+del t[59]  # 59
+del t[17]
+# #
+# # #
+# # #         10        FB = 0
+# # #       /    \
+# # #      3     42    FB = 1
+# # #     / \    / \
+# # #           17  59
+# # #
+# #
+#
+print("\nDeleting 59")
+print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
+print("right balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
+print("left balance factor is: ", t.retrieve_balance_factor(t.left(t.root())))
