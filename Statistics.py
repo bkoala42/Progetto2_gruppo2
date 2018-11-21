@@ -21,8 +21,8 @@ class Statistics:
     def __init__(self, fileName):
         # self.avl = NewAVLTreeMap()
         self.avl = AVLTreeMap()
-        self.occur = 0
         self.total = 0
+        self.occur = 0
         try:
             file = open(fileName, "r")
         except FileNotFoundError:
@@ -81,8 +81,7 @@ class Statistics:
 
     def average(self):
         """
-        Calculates the mean value of the values of the occurrences in the
-        map by iterating in time O(k), where k is the number of the keys.
+        Complexity O(1)
         :return: mean value of the values of the elements in the map.
         """
         return self.total / self.occurrences()
@@ -103,7 +102,7 @@ class Statistics:
         :param j: index of the percentile
         :return: the j-th percentile
         """
-        if j > 100:
+        if j > 100 or j < 0:
             raise Exception("j must be between [0:99]")
         # if the map is empty no percentile available
         if self.len() == 0:
@@ -115,7 +114,7 @@ class Statistics:
                 index = int((j * self.occurrences()) / 100 + 1)
             tmp = 0
             for node in self.avl:
-                tmp = frequency = self.avl.get(node)[0] + tmp
+                tmp = self.avl.get(node)[0] + tmp
                 if tmp >= index:
                     return node
 
@@ -128,6 +127,8 @@ class Statistics:
         :param j: index of keys requested
         :return: j-most-frequent keys
         """
+        if j < 0:
+            raise Exception("j must be positive")
         if self.len() == 0:
             return None
         if j > self.len():
@@ -136,11 +137,9 @@ class Statistics:
         queue = HeapPriorityQueue()
         for node in self.avl:
             queue.add(self.avl.get(node)[0], node)
+        print(queue.max())
         for i in range(len(queue)-j):
             queue.remove_min()
         for i in range(j):
             list.append(queue.remove_min())
         return list
-
-prova = Statistics("dataset.txt")
-print(prova.average())
