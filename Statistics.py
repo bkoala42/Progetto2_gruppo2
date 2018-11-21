@@ -1,7 +1,6 @@
 #from NewAVLTreeMap import NewAVLTreeMap
 from TdP_collections.map.avl_tree import AVLTreeMap
 from TdP_collections.priority_queue.heap_priority_queue import HeapPriorityQueue
-from TdP_collections.priority_queue.sorted_priority_queue import SortedPriorityQueue
 
 
 class Statistics:
@@ -22,6 +21,8 @@ class Statistics:
     def __init__(self, fileName):
         # self.avl = NewAVLTreeMap()
         self.avl = AVLTreeMap()
+        self.total = 0
+        self.occur = 0
         try:
             file = open(fileName, "r")
         except FileNotFoundError:
@@ -61,6 +62,8 @@ class Statistics:
             tmp.append(1)
             tmp.append(v)
         self.avl[k] = tmp
+        self.occur = self.occur + 1
+        self.total = self.total + v
 
     def len(self):
         """
@@ -71,83 +74,49 @@ class Statistics:
 
     def occurrences(self):
         """
-        Calculates the sum of the frequencies of the elements in the map
-        by iterating in time O(k), where k is the number of the keys.
-        :return: Sum of the frequencies of the elements in the map.
+        Complexity O(1)
+        :return: Frequencies of the elements in the map.
         """
-        value = self.avl.values()
-        """ :var value is a list containing (frequency, total) """
-        total_frequencies = 0
-        for i in value:
-            total_frequencies = total_frequencies + i[0]
-        return total_frequencies
+        return self.occur
 
     def average(self):
         """
-        Calculates the mean value of the values of the occurrences in the
-        map by iterating in time O(k), where k is the number of the keys.
+        Complexity O(1)
         :return: mean value of the values of the elements in the map.
         """
-        value = self.avl.values()
-        """ :var value is a list containing (frequency, total) """
-        total = 0
-        for i in value:
-            total = total + i[1]
-        return total / self.len()
+        return self.total / self.occurrences()
 
     def median(self):
         """
-        TODO CHECK COMPLEXITY
-        Calculates the central key of the set of keys taking into account
-        their frequency in time O(k(log(k)+f) where k is the number of the occurrences
-        in the data-set and f is the number of occurrences of a key.
-        :return: median of the keys in the map as a tuple
+        Complexity at most O(k)
+        :return: median of the keys in the map
         """
-        if self.len() == 0:
-            # if the map is empty no median available
-            return None, None
-        else:
-            tmp = []
-            for node in self.avl:
-                # for each node fill an array with the occurrences
-                frequency = self.avl.get(node)[0]
-                if len(tmp) == 0:
-                    tmp = [node] * frequency
-                else:
-                    tmp1 = [node] * frequency
-                    tmp.extend(tmp1)
-            if len(tmp) % 2 == 1:
-                # if even number of occurrences return the exact central values
-                return tmp[int(len(tmp) / 2)], None
-            else:
-                # if odd number of occurrences return the two values in the middle of the array
-                return tmp[int(len(tmp) / 2)], tmp[int(len(tmp) / 2 + 1)]
+        return self.percentile(50)
 
-    def percentile(self, j = 20):
+    def percentile(self, j):
         """
         Calculates the j-th percentile, for j = 1, ..., 99 of the lengths of keys,
         defined as the key k so that the j% of the occurrences of the data-set have
         keys with length smaller or equal to k
+        Complexity at most O(k)
         :param j: index of the percentile
         :return: the j-th percentile
         """
-        tmp = []
-        if j > 100:
+        if j > 100 or j < 0:
             raise Exception("j must be between [0:99]")
         # if the map is empty no percentile available
         if self.len() == 0:
             return None
         else:
-            queue = SortedPriorityQueue()
+            if self.occurrences() % 2 == 0:
+                index = int((j * self.occurrences()) / 100)
+            else:
+                index = int((j * self.occurrences()) / 100 + 1)
+            tmp = 0
             for node in self.avl:
-                frequency = self.avl.get(node)[0]
-                lenght = len(node)
-                for i in range(frequency):
-                    queue.add(lenght, node)
-            for i in range(len(queue)):
-                tmp.append(queue.remove_min()[1])
-            print(tmp)
-        return tmp[int((len(tmp) * j) / 100 - 1)]
+                tmp = self.avl.get(node)[0] + tmp
+                if tmp >= index:
+                    return node
 
 
     def mostFrequent(self, j):
@@ -158,6 +127,8 @@ class Statistics:
         :param j: index of keys requested
         :return: j-most-frequent keys
         """
+        if j < 0:
+            raise Exception("j must be positive")
         if self.len() == 0:
             return None
         if j > self.len():
@@ -166,6 +137,7 @@ class Statistics:
         queue = HeapPriorityQueue()
         for node in self.avl:
             queue.add(self.avl.get(node)[0], node)
+        print(queue.max())
         for i in range(len(queue)-j):
             queue.remove_min()
         for i in range(j):
