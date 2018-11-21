@@ -22,6 +22,7 @@ class Statistics:
         # self.avl = NewAVLTreeMap()
         self.avl = AVLTreeMap()
         self.occur = 0
+        self.total = 0
         try:
             file = open(fileName, "r")
         except FileNotFoundError:
@@ -62,6 +63,7 @@ class Statistics:
             tmp.append(v)
         self.avl[k] = tmp
         self.occur = self.occur + 1
+        self.total = self.total + v
 
     def len(self):
         """
@@ -83,12 +85,7 @@ class Statistics:
         map by iterating in time O(k), where k is the number of the keys.
         :return: mean value of the values of the elements in the map.
         """
-        value = self.avl.values()
-        """ :var value is a list containing (frequency, total) """
-        total = 0
-        for i in value:
-            total = total + i[1]
-        return total / self.occurrences()
+        return self.total / self.occurrences()
 
     def median(self):
         """
@@ -144,3 +141,6 @@ class Statistics:
         for i in range(j):
             list.append(queue.remove_min())
         return list
+
+prova = Statistics("dataset.txt")
+print(prova.average())
