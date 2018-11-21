@@ -149,8 +149,10 @@ class NewAVLTreeMap(AVLTreeMap):
         if insert:
             if p == self.left(self.parent(p)):
                 self.change_balance_factor(self.parent(p), self.retrieve_balance_factor(self.parent(p)) + 1)
+                return
             else:
                 self.change_balance_factor(self.parent(p), self.retrieve_balance_factor(self.parent(p)) - 1)
+                return
         else:
             if self.right(p) is None and self.left(p) is None:
                  # salgo da destra
@@ -189,6 +191,7 @@ class NewAVLTreeMap(AVLTreeMap):
         return abs(self.retrieve_balance_factor(p)) <= 1
 
     def _tall_child(self, p, favorleft=False):  # parameter controls tiebreaker
+        _ = self._validate(p)
         # esiste il caso -2/+2???
         # if p._node._balance_factor == 0 and favorleft:
         if self.retrieve_balance_factor(p) == 0 and favorleft:
@@ -215,12 +218,13 @@ class NewAVLTreeMap(AVLTreeMap):
 
         while p is not None:
             if self.parent(p) is not None:
+                old_father_bf = self.retrieve_balance_factor(self.parent(p))
                 self._update_rebalance_factor(p, insert)                       # +,-1 con insert e delete
                 old_balance_factor = self.retrieve_balance_factor(p)
                 if not self._isbalanced(self.parent(p)):
-                    print(p.element()._key)
+                    # print(p.element()._key)
                     if self.parent(self.parent(p)) is None:
-                        print(self._tall_child(p).element()._key)
+                        # print(self._tall_child(p).element()._key)
                         p = self._restructure(self._tall_child(p))
                     else:
                         # print(self._tall_grandchild(p).element()._key)
@@ -228,10 +232,22 @@ class NewAVLTreeMap(AVLTreeMap):
                     self._recompute_balance_factor(self.left(p))
                     self._recompute_balance_factor(self.right(p))
                     self._recompute_balance_factor(p)
+                if insert and (old_father_bf == 1 or old_father_bf == -1) and self.retrieve_balance_factor(p) == 0:
+                    return
                 if insert and self.retrieve_balance_factor(p) == 0 and (old_balance_factor == 1 or old_balance_factor == -1):
                     return
                 if not insert and (self.retrieve_balance_factor(p) == 1 or self.retrieve_balance_factor(p) == -1) and old_balance_factor == 0:
                     return
+            # Caso delete di un sotto albero della root
+            elif not insert:
+                self._update_rebalance_factor(p, insert=False)
+                p = self._restructure(self._tall_grandchild(p))
+                if self.left(p) is not None:
+                    self._recompute_balance_factor(self.left(p))
+                if self.right(p) is not None:
+                    self._recompute_balance_factor(self.right(p))
+                self._recompute_balance_factor(p)
+                return
             p = self.parent(p)
 
             # if self.parent(p) is not None and self.is_balanced(p):
