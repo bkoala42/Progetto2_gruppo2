@@ -29,10 +29,13 @@ class Statistics:
             print("File not found")
         else:
             for line in file:
+                if line == "empty":
+                    break
                 tmp = line.split(":")
                 key = tmp[0]
                 value = tmp[1]
                 self.add(key, int(value))
+            file.close()
 
     def add(self, k, v):
         """
