@@ -1,16 +1,6 @@
-from NewAVLTreeMap import NewAVLTreeMap
+# from NewAVLTreeMap import NewAVLTreeMap
+from esercizio1 import NewAVLTreeMap
 from TdP_collections.map.avl_tree import AVLTreeMap
-
-
-def test_empty_awl_map():
-    """
-    Testing emptiness using inherited methods
-    """
-    t = NewAVLTreeMap()
-    if t.root() is None and t.is_empty():
-        print("Test test_empty_awl_map passed")
-    else:
-        print("Test test_empty_awl_map failed")
 
 
 def test_insert_awl_map():
@@ -332,8 +322,32 @@ def test_rl_rotation_delete():
         print("Test test_rl_rotation_delete failed")
 
 
+def test_multiple_insert_delete():
+    """
+    This test verifies the correctness of avl properties after multiple insert and delete operations
+    """
+    t = NewAVLTreeMap()
+    t[10] = 10
+    t[5] = 5
+    t[42] = 42
+    t[35] = 35
+    t[12] = 12
+    t[33] = 33
+    del t[12]
+    del t[35]
+    t[3] = 3
+    t[56] = 56
+    t[44] = 44
+    t[43] = 43
+    t[32] = 32
+    t[39] = 39
+    del t[5]
+    for x in t.breadthfirst():
+        print(x.element()._key)
+    # print(t.root().element()._key)
+
+
 def run_test_new_awl():
-    test_empty_awl_map()
     test_insert_awl_map()
     test_delete_awl_map()
     test_rr_rotation_insert()
@@ -345,6 +359,7 @@ def run_test_new_awl():
     test_rr_rotation_delete()
     test_lr_rotation_delete()
     test_rl_rotation_delete()
+    test_multiple_insert_delete()
 
 
 if __name__ == "__main__":
