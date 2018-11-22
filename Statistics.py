@@ -28,11 +28,14 @@ class Statistics:
         except FileNotFoundError:
             print("File not found")
         else:
-             for line in file:
+            for line in file:
+                if line == "empty":
+                    break
                 tmp = line.split(":")
                 key = tmp[0]
                 value = tmp[1]
                 self.add(key, int(value))
+            file.close()
 
     def add(self, k, v):
         """
@@ -88,7 +91,7 @@ class Statistics:
 
     def median(self):
         """
-        Complexity at most O(k)
+        Complexity at most O(klogk)
         :return: median of the keys in the map
         """
         return self.percentile(50)
@@ -98,7 +101,7 @@ class Statistics:
         Calculates the j-th percentile, for j = 1, ..., 99 of the lengths of keys,
         defined as the key k so that the j% of the occurrences of the data-set have
         keys with length smaller or equal to k
-        Complexity at most O(k)
+        Complexity at most O(klogk)
         :param j: index of the percentile
         :return: the j-th percentile
         """
@@ -122,7 +125,7 @@ class Statistics:
     def mostFrequent(self, j):
         """
         Returns a list containing the j-th most frequent keys.
-        Complexity O(klog(k)) where k is the number of different
+        Complexity O(klog(j)) where k is the number of different
         keys.
         :param j: index of keys requested
         :return: j-most-frequent keys
@@ -133,13 +136,18 @@ class Statistics:
             return None
         if j > self.len():
             j = self.len()
-        list = []
+
         queue = HeapPriorityQueue()
+
         for node in self.avl:
-            queue.add(self.avl.get(node)[0], node)
-        print(queue.max())
-        for i in range(len(queue)-j):
-            queue.remove_min()
+            if len(queue) < j:
+                queue.add(self.avl.get(node)[0], node)
+            elif queue.min()[0] < self.avl.get(node)[0]:
+                print(node)
+                queue.remove_min()
+                queue.add(self.avl.get(node)[0], node)
+
+        list = []
         for i in range(j):
             list.append(queue.remove_min())
         return list

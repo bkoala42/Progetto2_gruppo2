@@ -120,13 +120,13 @@ def test_mostFrequent():
 
 
 def run_test_statistics():
-    #test_add()
-    #test_len()
-    #test_occurrences()
-    #test_average()
-    #test_median()
-    #test_percentile_file_dataset()
-    #test_percentile_file_empty()
+    test_add()
+    test_len()
+    test_occurrences()
+    test_average()
+    test_median()
+    test_percentile_file_dataset()
+    test_percentile_file_empty()
     test_mostFrequent()
 
 
