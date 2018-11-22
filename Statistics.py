@@ -28,7 +28,7 @@ class Statistics:
         except FileNotFoundError:
             print("File not found")
         else:
-             for line in file:
+            for line in file:
                 tmp = line.split(":")
                 key = tmp[0]
                 value = tmp[1]
@@ -117,7 +117,8 @@ class Statistics:
                 tmp = self.avl.get(node)[0] + tmp
                 if tmp >= index:
                     return node
-    
+
+
     def mostFrequent(self, j):
         """
         Returns a list containing the j-th most frequent keys.
@@ -139,10 +140,11 @@ class Statistics:
             if len(queue) < j:
                 queue.add(self.avl.get(node)[0], node)
             elif queue.min()[0] < self.avl.get(node)[0]:
+                print(node)
                 queue.remove_min()
                 queue.add(self.avl.get(node)[0], node)
 
-        list = [None]*len(queue)
-        for i in range(len(queue)):
-            list[len(queue)-i-1] = queue.remove_min()
+        list = []
+        for i in range(j):
+            list.append(queue.remove_min())
         return list
