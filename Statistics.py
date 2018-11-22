@@ -50,23 +50,24 @@ class Statistics:
         The assumption taken is to store the parameters as follows:
             key = k
             value = list(frequency, total)
-        TODO CHECK COMPLEXITY
-        The method takes O(1) to search in keys() method for python 3.x
-        and insertion takes O(1) (based on python documentation).
+        Complexity O(logk)
         """
-        tmp = []
-        if k in self.avl:
-            value = self.avl[k]
-            frequency = value[0] + 1
-            total = value[1] + v
-            tmp.append(frequency)
-            tmp.append(total)
+        if isinstance(k,str) and isinstance(v, int):
+            tmp = []
+            if k in self.avl:
+                value = self.avl[k]
+                frequency = value[0] + 1
+                total = value[1] + v
+                tmp.append(frequency)
+                tmp.append(total)
+            else:
+                tmp.append(1)
+                tmp.append(v)
+            self.avl[k] = tmp
+            self.occur = self.occur + 1
+            self.total = self.total + v
         else:
-            tmp.append(1)
-            tmp.append(v)
-        self.avl[k] = tmp
-        self.occur = self.occur + 1
-        self.total = self.total + v
+            raise Exception("Type error: \nk must be a String\nv must be a integer  ")
 
     def len(self):
         """
@@ -77,21 +78,21 @@ class Statistics:
 
     def occurrences(self):
         """
-        Complexity O(1)
+        Returns the number of occurences in the map in O(1) time.
         :return: Frequencies of the elements in the map.
         """
         return self.occur
 
     def average(self):
         """
-        Complexity O(1)
+        Returns the avarage of occurences in the map in O(1) time.
         :return: mean value of the values of the elements in the map.
         """
         return self.total / self.occurrences()
 
     def median(self):
         """
-        Complexity at most O(klogk)
+        Returns the median of the keys in the map in O(klogk) time.
         :return: median of the keys in the map
         """
         return self.percentile(50)
@@ -105,49 +106,52 @@ class Statistics:
         :param j: index of the percentile
         :return: the j-th percentile
         """
-        if j > 100 or j < 0:
-            raise Exception("j must be between [0:99]")
-        # if the map is empty no percentile available
-        if self.len() == 0:
-            return None
-        else:
-            if self.occurrences() % 2 == 0:
-                index = int((j * self.occurrences()) / 100)
+        if self.len() != 0:
+            if j > 100 or j < 0:
+                raise Exception("j must be between [0:99]")
             else:
-                index = int((j * self.occurrences()) / 100 + 1)
-            tmp = 0
-            for node in self.avl:
-                tmp = self.avl.get(node)[0] + tmp
-                if tmp >= index:
-                    return node
-
+                if self.occurrences() % 2 == 0:
+                    index = int((j * self.occurrences()) / 100)
+                else:
+                    index = int((j * self.occurrences()) / 100 + 1)
+                tmp = 0
+                for node in self.avl:
+                    tmp = self.avl.get(node)[0] + tmp
+                    if tmp >= index:
+                        return node
+        else:
+            if j == 50:
+                raise Exception("AVL empty, no median available.")
+            else:
+                raise Exception("AVL empty, no percentile available.")
 
     def mostFrequent(self, j):
         """
         Returns a list containing the j-th most frequent keys.
-        Complexity O(klog(j)) where k is the number of different
+        Complexity O(klogj) where k is the number of different
         keys.
         :param j: index of keys requested
         :return: j-most-frequent keys
         """
-        if j < 0:
-            raise Exception("j must be positive")
-        if self.len() == 0:
-            return None
-        if j > self.len():
-            j = self.len()
+        if self.len() != 0:
+            if j < 0:
+                raise Exception("j must be positive")
+            if j > self.len():
+                j = self.len()
 
-        queue = HeapPriorityQueue()
+            queue = HeapPriorityQueue()
 
-        for node in self.avl:
-            if len(queue) < j:
-                queue.add(self.avl.get(node)[0], node)
-            elif queue.min()[0] < self.avl.get(node)[0]:
-                print(node)
-                queue.remove_min()
-                queue.add(self.avl.get(node)[0], node)
+            for node in self.avl:
+                if len(queue) < j:
+                    queue.add(self.avl.get(node)[0], node)
+                elif queue.min()[0] < self.avl.get(node)[0]:
+                    print(node)
+                    queue.remove_min()
+                    queue.add(self.avl.get(node)[0], node)
 
-        list = []
-        for i in range(j):
-            list.append(queue.remove_min())
-        return list
+            list = []
+            for i in range(j):
+                list.append(queue.remove_min())
+            return list
+        else:
+            raise Exception("The avl three is empty.")
