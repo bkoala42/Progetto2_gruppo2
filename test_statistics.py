@@ -67,8 +67,7 @@ def test_average():
 
 def test_median():
     stat = Statistics("empty.txt")
-    r1 = stat.median()
-    if r1 is None:
+    if stat.len() == 0:
         for i in range(9):
             stat.add(chr(65 + i), i + 1)
         r1 = stat.median()
@@ -103,7 +102,7 @@ def test_percentile_file_dataset():
 
 def test_mostFrequent():
     stat = Statistics("empty.txt")
-    if stat.len() == 0 and stat.mostFrequent(2) is None:
+    if stat.len() == 0:
         stat.add("Plank", 1)
         stat.add("Newton", 1)
         stat.add("Plank", 2)
