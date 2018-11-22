@@ -117,12 +117,11 @@ class Statistics:
                 tmp = self.avl.get(node)[0] + tmp
                 if tmp >= index:
                     return node
-
-
+    
     def mostFrequent(self, j):
         """
         Returns a list containing the j-th most frequent keys.
-        Complexity O(klog(k)) where k is the number of different
+        Complexity O(klog(j)) where k is the number of different
         keys.
         :param j: index of keys requested
         :return: j-most-frequent keys
@@ -133,13 +132,17 @@ class Statistics:
             return None
         if j > self.len():
             j = self.len()
-        list = []
+
         queue = HeapPriorityQueue()
+
         for node in self.avl:
-            queue.add(self.avl.get(node)[0], node)
-        print(queue.max())
-        for i in range(len(queue)-j):
-            queue.remove_min()
-        for i in range(j):
-            list.append(queue.remove_min())
+            if len(queue) < j:
+                queue.add(self.avl.get(node)[0], node)
+            elif queue.min()[0] < self.avl.get(node)[0]:
+                queue.remove_min()
+                queue.add(self.avl.get(node)[0], node)
+
+        list = [None]*len(queue)
+        for i in range(len(queue)):
+            list[len(queue)-i-1] = queue.remove_min()
         return list
