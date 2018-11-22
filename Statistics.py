@@ -91,7 +91,7 @@ class Statistics:
 
     def median(self):
         """
-        Complexity at most O(k)
+        Complexity at most O(klogk)
         :return: median of the keys in the map
         """
         return self.percentile(50)
