@@ -1,4 +1,5 @@
-from Statistics import Statistics
+from pkg_2.Statistics import Statistics
+
 
 def test_add():
     stat1 = Statistics("empty.txt")
@@ -78,6 +79,7 @@ def test_median():
     else:
         print("Test test_median failed")
 
+
 def test_percentile_file_empty():
     stat = Statistics("empty.txt")
     if stat.len() == 0:
@@ -90,6 +92,7 @@ def test_percentile_file_empty():
     else:
         print("Test test_percentile_file_empty failed")
 
+
 def test_percentile_file_dataset():
     stat = Statistics("dataset.txt")
     if stat.len() != 0:
@@ -99,6 +102,7 @@ def test_percentile_file_dataset():
             print("Test test_percentile_file_dataset failed")
     else:
         print("Test test_percentile_file_dataset failed")
+
 
 def test_mostFrequent():
     stat = Statistics("empty.txt")

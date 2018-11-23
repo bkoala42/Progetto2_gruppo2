@@ -1,4 +1,4 @@
-from CircularSubstring import circular_substring
+from pkg_4.CircularSubstring import circular_substring
 
 full_string = "This is a cool string"
 

@@ -1,5 +1,4 @@
-from NewAVLTreeMap import NewAVLTreeMap
-from TdP_collections.map.avl_tree import AVLTreeMap
+from pkg_1.NewAVLTreeMap import NewAVLTreeMap
 
 """
 Remember per Ilaria:

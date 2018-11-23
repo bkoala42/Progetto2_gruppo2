@@ -1,4 +1,4 @@
-from repetitions import find_repetition
+from pkg_3.repetitions import find_repetition
 
 """ In order to test this utility it is necessary to create two directories with ONLY text files. One with duplicated
     files with both equal names and different names, and one without duplicated files."""

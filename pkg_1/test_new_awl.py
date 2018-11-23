@@ -1,5 +1,4 @@
-# from NewAVLTreeMap import NewAVLTreeMap
-from esercizio1 import NewAVLTreeMap
+from pkg_1.NewAVLTreeMap import NewAVLTreeMap
 from TdP_collections.map.avl_tree import AVLTreeMap
 
 
@@ -342,9 +341,24 @@ def test_multiple_insert_delete():
     t[32] = 32
     t[39] = 39
     del t[5]
-    for x in t.breadthfirst():
-        print(x.element()._key)
-    # print(t.root().element()._key)
+    del t[42]
+    t[42] = 42
+    t[14] = 14
+    t[13] = 13
+    t[12] = 12
+    t[6] = 6
+    t[2] = 2
+    t[1] = 1
+
+    index=0
+    list_to_check = [39, 10, 44, 3, 14, 43, 56, 2, 6, 13, 32, 42, 1, 12, 33]
+    if t.retrieve_balance_factor(t.root()) == 1:
+        for x in t.breadthfirst():
+            if x.element()._key != list_to_check[index]:
+                print("Test test_multiple_insert_delete failed")
+                return
+            index += 1
+        print("Test test_multiple_insert_delete passed")
 
 
 def run_test_new_awl():
