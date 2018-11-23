@@ -115,10 +115,10 @@ class Statistics:
                 else:
                     index = int((j * self.occurrences()) / 100 + 1)
                 tmp = 0
-                for node in self.avl:
-                    tmp = self.avl.get(node)[0] + tmp
+                for node in self.avl.items():
+                    tmp = node[1][0] + tmp
                     if tmp >= index:
-                        return node
+                        return node[0]
         else:
             if j == 50:
                 raise Exception("AVL empty, no median available.")
@@ -141,13 +141,12 @@ class Statistics:
 
             queue = HeapPriorityQueue()
 
-            for node in self.avl:
+            for node in self.avl.items():
                 if len(queue) < j:
-                    queue.add(self.avl.get(node)[0], node)
-                elif queue.min()[0] < self.avl.get(node)[0]:
-                    print(node)
+                    queue.add(node[1][0], node[0])
+                elif queue.min()[0] < node[1][0]:
                     queue.remove_min()
-                    queue.add(self.avl.get(node)[0], node)
+                    queue.add(node[1][0], node[0])
 
             list = []
             for i in range(j):
