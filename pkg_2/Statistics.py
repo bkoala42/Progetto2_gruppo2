@@ -1,5 +1,4 @@
-#from NewAVLTreeMap import NewAVLTreeMap
-from TdP_collections.map.avl_tree import AVLTreeMap
+from pkg_1.NewAVLTreeMap import NewAVLTreeMap
 from TdP_collections.priority_queue.heap_priority_queue import HeapPriorityQueue
 
 
@@ -20,7 +19,7 @@ class Statistics:
 
     def __init__(self, fileName):
         # self.avl = NewAVLTreeMap()
-        self.avl = AVLTreeMap()
+        self.avl = NewAVLTreeMap()
         self.total = 0
         self.occur = 0
         try:
