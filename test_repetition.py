@@ -8,8 +8,18 @@ def test_find_repetition_collide():
     """ Tests find_repetition in case of directory with duplicated files. """
     dir_test = "Colliding"
     collides = find_repetition(dir_test)
-    # add to this condition the name of the duplicate files
-    if len(collides) != 0 and 'File2.txt' in collides and 'File3.txt' in collides and 'File5.txt' in collides:
+    k = 0
+    for i in collides.keys():
+        if len(collides[i]) == 0 and collides[i] == []:
+            k = k + 1
+            continue
+        if len(collides[i]) == 2 and collides[i] == ['File3.txt', 'File5.txt']:
+            k = k + 1
+            continue
+        if len(collides[i]) == 0 and collides[i] == []:
+            k = k + 1
+            continue
+    if len(collides.keys()) == k:
         print("Test test_find_repetition_collide passed")
     else:
         print("Test test_find_repetition_collide failed")
@@ -19,23 +29,30 @@ def test_find_repetition_multiple_collide():
     """ Tests find_repetition in case of directory with more than one duplicated files. """
     dir_test = "MultipleColliding"
     collides = find_repetition(dir_test)
-    # add to this condition the name of the duplicate files
-    if len(collides) != 0 and 'File2.txt' in collides and 'File3.txt' in collides and 'File5.txt' in collides \
-            and 'File1.txt' in collides and 'File6.txt' in collides:
+    k = 0
+    for i in collides.keys():
+        if len(collides[i])  == 1 and collides[i] == ['File6.txt']:
+            k = k +1
+        if len(collides[i]) == 2 and collides[i] == ['File3.txt', 'File5.txt']:
+            k = k + 1
+        if len(collides[i]) == 0 and collides[i] == []:
+            k = k + 1
+        if len(collides[i]) == 1 and collides[i] == ['File8.txt']:
+            k = k +1
+    if k == len(collides.keys()):
         print("Test test_find_repetition_multiple_collide passed")
     else:
         print("Test test_find_repetition_multiple_collide failed")
-
 
 def test_find_repetition_no_collide():
     """ Tests find_repetition in case of directory without duplicated files. """
     dir_test = "NotColliding"
     collides = find_repetition(dir_test)
-    if len(collides) == 0:
-        print("Test test_find_repetition_no_collide passed")
-    else:
-        print("Test test_find_repetition_no_collide failed")
-
+    for i in collides.keys():
+        if len(collides[i]) != 0:
+            print("Test test_find_repetition_no_collide failed")
+            break
+    print("Test test_find_repetition_no_collide passed")
 
 def run_test_repetition():
     test_find_repetition_collide()
