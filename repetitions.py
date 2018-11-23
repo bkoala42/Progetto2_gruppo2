@@ -1,5 +1,4 @@
-from os import listdir, getcwd, chdir
-
+from os import listdir
 
 def find_repetition(directory):
     """
@@ -9,22 +8,18 @@ def find_repetition(directory):
     :return: List of duplicated files
     """
     table = {}
-    colliding = []
+    colliding = {}
     files = listdir(directory)
     for file in files:
         try:
             file_content = open(directory+"\\"+file).read()
             if hash(file_content) in table.keys():
-                if table[hash(file_content)] not in colliding:
-                    colliding.append(table[hash(file_content)])
-                colliding.append(file)
+                tmp = colliding.get(table[hash(file_content)])
+                tmp.append(file)
+                colliding[table[hash(file_content)]] = tmp
             else:
                 table[hash(file_content)] = file
+                colliding[file] = []
         except Exception as e:
             print(e)
     return colliding
-
-
-
-
-
