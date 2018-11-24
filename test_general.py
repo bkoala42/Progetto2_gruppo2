@@ -30,6 +30,7 @@ print("5 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
 
 print("\nInserting third element")
 t[3] = "gg"
+print("root is: ", t.root().element()._key)
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
 #
 # #
@@ -64,6 +65,7 @@ t[10] = "bbb"
 #
 
 # print("tree is balanced: ", t.is_balanced(t.root()))
+print("root is: ", t.root().element()._key)
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
 print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.right(t.root()))))
 print("5 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
@@ -77,17 +79,17 @@ t[59] = "bb"
 #
 #
 # #
-# #      3
+# #      3                  FB = -1
 # #    /   \
-# #   1     10
+# #   1     10              FB = 0, FB = 0
 # #        /  \
-# #       5    59
+# #       5    59           FB = 0, FB = 0
 # #
 #
 #
 # for k,v in t.items():
 #     print("[{}:{}]".format(k,v))
-# print("root is: ", t.root().element()._key)
+print("root is: ", t.root().element()._key)
 print("tree balance factor is: ", t.retrieve_balance_factor(t.root()))
 print("10 balance factor is: ", t.retrieve_balance_factor(t.right(t.root())))
 print("59 balance factor is: ", t.retrieve_balance_factor(t.right(t.right(t.root()))))
