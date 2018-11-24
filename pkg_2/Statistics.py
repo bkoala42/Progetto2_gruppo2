@@ -91,7 +91,7 @@ class Statistics:
 
     def median(self):
         """
-        Returns the median of the keys in the map in O(klogk) time.
+        Returns the median of the keys in the map in O(k) time.
         :return: median of the keys in the map
         """
         return self.percentile(50)
@@ -101,7 +101,7 @@ class Statistics:
         Calculates the j-th percentile, for j = 1, ..., 99 of the lengths of keys,
         defined as the key k so that the j% of the occurrences of the data-set have
         keys with length smaller or equal to k
-        Complexity at most O(klogk)
+        Complexity at most O(k)
         :param j: index of the percentile
         :return: the j-th percentile
         """
