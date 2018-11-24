@@ -2,7 +2,7 @@ from TdP_collections.map.avl_tree import AVLTreeMap
 from TdP_collections.map.avl_tree import TreeMap
 
 
-class NewAVLTreeMap(AVLTreeMap):
+class NewAVLTreeMap(TreeMap):
     # ---------------------------- override Position class ----------------------------
     class Position(AVLTreeMap.Position):
         def __init__(self, container, node):
@@ -29,12 +29,6 @@ class NewAVLTreeMap(AVLTreeMap):
 
         def set_balance_factor(self, v):
             self._balance_factor = v
-
-        def left_height(self):
-            pass
-
-        def right_height(self):
-            pass
 
     def _retrieve_balance_factor(self, p):
         """
@@ -78,7 +72,6 @@ class NewAVLTreeMap(AVLTreeMap):
             if self._retrieve_balance_factor(p) == 0:
                 self._change_balance_factor(left, -1)
                 self._change_balance_factor(p, 1)
-            # elif bf_grandchild == -1:
             else:
                 self._change_balance_factor(left, 0)
                 self._change_balance_factor(p, 0)
@@ -117,8 +110,14 @@ class NewAVLTreeMap(AVLTreeMap):
             only one leaf in a level below (left None / right None)
         :param p: position passed by the delete, that is always the parent of the deleted node
         """
+        # # Cases after delete are:
+        #       B   -> leaf
+        #
         if self.is_leaf(p):
             self._change_balance_factor(p, 0)
+        #       B
+        #        \
+        #         A -> only one leaf as right node, then self_bf is 0-1
         elif self.left(p) is None:
             self._change_balance_factor(p, self._retrieve_balance_factor(p) - 1)
         elif self.right(p) is None:
@@ -131,11 +130,12 @@ class NewAVLTreeMap(AVLTreeMap):
         elif self.is_leaf(self.right(p)):
             self._change_balance_factor(p, self._retrieve_balance_factor(p) + 1)
 
-    def _isbalanced(self, p):
+    def _isbalanced(self, p) -> bool:
         """
         A node (inside a position p) is considered to be balanced iff its balance factor is equal
         to -1, 0, 1
         :param p: position to evaluate
+        :return True/False value
         """
         return abs(self._retrieve_balance_factor(p)) <= 1
 
